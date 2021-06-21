@@ -80,5 +80,20 @@ namespace ScmBackup.Tests.Scm
         {
             throw new NotImplementedException();
         }
+
+        public bool LFSIsOnThisComputer()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PullLFSFromRemote(string remoteUrl, string directory, ScmCredentials credentials)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RepositoryContainsLFS(string directory)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
