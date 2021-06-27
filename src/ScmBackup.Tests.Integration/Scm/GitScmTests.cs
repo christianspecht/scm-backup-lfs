@@ -47,5 +47,20 @@ namespace ScmBackup.Tests.Integration.Scm
         {
             get { return "00000"; }
         }
+
+        internal override string LfsRepoUrl
+        {
+            get { return CloneUrlBuilder.GithubCloneUrl("scm-backup-testuser", "git-lfs-files"); }
+        }
+
+        internal override string LfsRepoExistingCommitId
+        {
+            get { return "6f566cf847dee2dd63adcd37df14127a47e9d94d"; }
+        }
+
+        internal override string LfsRepoFileName
+        {
+            get { return "test1.lfs"; }
+        }
     }
 }

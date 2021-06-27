@@ -47,5 +47,20 @@ namespace ScmBackup.Tests.Integration.Scm
                 return "1111111111";
             }
         }
+
+        internal override string LfsRepoUrl
+        {
+            get { return null; }
+        }
+
+        internal override string LfsRepoExistingCommitId
+        {
+            get { return null; }
+        }
+
+        internal override string LfsRepoFileName
+        {
+            get { return null; }
+        }
     }
 }

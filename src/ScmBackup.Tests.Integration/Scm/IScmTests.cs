@@ -18,7 +18,12 @@ namespace ScmBackup.Tests.Integration.Scm
 
         // commit ids that do/do not exist in the public repo
         internal abstract string PublicRepoExistingCommitId { get; }
-        internal abstract string PublicRepoNonExistingCommitId{get;}
+        internal abstract string PublicRepoNonExistingCommitId { get; }
+
+        // public test repo which contains LFS files / a commit that exists in it / file name of a LFS file in the repo
+        internal abstract string LfsRepoUrl { get; }
+        internal abstract string LfsRepoExistingCommitId { get; }
+        internal abstract string LfsRepoFileName { get; }
 
         [Fact]
         public void SutWasSetInChildClass()
@@ -173,6 +178,23 @@ namespace ScmBackup.Tests.Integration.Scm
             Assert.True(sut.DirectoryIsRepository(subDir));
         }
 
+        [SkippableFact]
+        public void PullFromRemote_Lfs_CreatesNewRepo()
+        {
+            Skip.If(this.SkipLfsTests());
+
+            string dir = DirectoryHelper.CreateTempDirectory(DirSuffix("pull-lfs-new"));
+            sut.PullFromRemote(this.LfsRepoUrl, dir);
+
+            Assert.True(sut.DirectoryIsRepository(dir));
+            Assert.True(sut.RepositoryContainsCommit(dir, this.LfsRepoExistingCommitId));
+
+            // TODO
+            // string filename = Path.Combine(dir, this.LfsRepoFileName);
+            // Assert.True(File.Exists(filename));
+
+        }
+
         [Fact]
         public void RepositoryContainsCommit_ThrowsWhenDirDoesntExist()
         {
@@ -240,6 +262,13 @@ namespace ScmBackup.Tests.Integration.Scm
         private string DirSuffix(string suffix)
         {
             return "iscm-" + this.sut.ShortName + "-" + suffix;
+        }
+
+        private bool SkipLfsTests()
+        {
+            return string.IsNullOrWhiteSpace(this.LfsRepoUrl) 
+                || string.IsNullOrWhiteSpace(this.LfsRepoExistingCommitId)
+                || string.IsNullOrWhiteSpace(this.LfsRepoFileName);
         }
     }
 }
