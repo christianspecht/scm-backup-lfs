@@ -17,7 +17,7 @@ namespace ScmBackup.Tests.Integration.Scm
             {
                 this.FakeCommandName = Path.Combine(testAssemblyDir, @"Scm\FakeCommandLineScmTools\FakeCommandLineScm-Command-Windows.bat");
                 this.FakeCommandArgs = "";
-                this.FakeCommandResult = "Windows" + Environment.NewLine;
+                this.FakeCommandResult = "Windows";
 
                 this.FakeCommandNameNotExisting = Path.Combine(testAssemblyDir, "doesnt-exist");
             }

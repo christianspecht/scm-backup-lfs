@@ -76,7 +76,7 @@ namespace ScmBackup.Scm
             proc.BeginErrorReadLine();
             proc.WaitForExit();
 
-            result.StandardOutput = output.ToString();
+            result.StandardOutput = output.ToString().TrimEnd(new char[] { '\r', '\n' });
             result.StandardError = error.ToString();
             result.ExitCode = proc.ExitCode;
             return result;
