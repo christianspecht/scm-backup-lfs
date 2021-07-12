@@ -10,6 +10,8 @@ namespace ScmBackup.Tests.Integration
     /// </summary>
     public class DirectoryHelper
     {
+        public static string TestSubDir { get { return "_scm-backup-tests"; } }
+
         public static string CreateTempDirectory()
         {
             return DirectoryHelper.CreateTempDirectory(string.Empty);
@@ -17,23 +19,9 @@ namespace ScmBackup.Tests.Integration
 
         public static string CreateTempDirectory(string suffix)
         {
-            string tempDir = Path.GetTempPath();
-            string subDir = "_scm-backup-tests";
-            string newDir =  DateTime.UtcNow.ToString("yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
-
-            if (!string.IsNullOrWhiteSpace(suffix))
-            {
-                newDir += '-' + suffix;
-            }
-
-            string finalDir = Path.Combine(tempDir, subDir, newDir);
-
-            if (Directory.CreateDirectory(finalDir) != null)
-            {
-                return finalDir;
-            }
-
-            return string.Empty;
+            // redirect, because this is called from a lot of places
+            var helper = new FileSystemHelper();
+            return helper.CreateTempDirectory(DirectoryHelper.TestSubDir, suffix);
         }
 
         /// <summary>

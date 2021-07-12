@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -43,6 +44,29 @@ namespace ScmBackup
         public string PathCombine(string path1, string path2)
         {
             return Path.Combine(path1, path2);
+        }
+
+        /// <summary>
+        /// create unique temp directories
+        /// </summary>
+        public string CreateTempDirectory(string subDir, string suffix)
+        {
+            string tempDir = Path.GetTempPath();
+            string newDir = DateTime.UtcNow.ToString("yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+
+            if (!string.IsNullOrWhiteSpace(suffix))
+            {
+                newDir += '-' + suffix;
+            }
+
+            string finalDir = Path.Combine(tempDir, subDir, newDir);
+
+            if (Directory.CreateDirectory(finalDir) != null)
+            {
+                return finalDir;
+            }
+
+            return string.Empty;
         }
     }
 }

@@ -73,5 +73,28 @@ namespace ScmBackup.Tests.Integration
             var sut = new FileSystemHelper();
             Assert.Throws<DirectoryNotFoundException>(() => sut.CreateSubDirectory(dir, "sub"));
         }
+
+        [Fact]
+        public void CreateTempDirectory_DirectoryIsCreated()
+        {
+            var sut = new FileSystemHelper();
+            var result = sut.CreateTempDirectory(DirectoryHelper.TestSubDir, string.Empty);
+
+            Assert.False(string.IsNullOrWhiteSpace(result));
+            Assert.True(Directory.Exists(result));
+        }
+
+        [Fact]
+        public void CreateTempDirectory_DirectoryWithSuffixIsCreated()
+        {
+            string suffix = "foo";
+
+            var sut = new FileSystemHelper();
+            var result = sut.CreateTempDirectory(DirectoryHelper.TestSubDir, suffix);
+
+            Assert.False(string.IsNullOrWhiteSpace(result));
+            Assert.True(Directory.Exists(result));
+            Assert.EndsWith(suffix, result);
+        }
     }
 }

@@ -19,5 +19,10 @@
         /// wrapper for Path.Combine
         /// </summary>
         string PathCombine(string path1, string path2);
+
+        /// <summary>
+        /// create unique temp directories
+        /// </summary>
+        string CreateTempDirectory(string subDir, string suffix);
     }
 }
