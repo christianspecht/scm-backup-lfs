@@ -141,6 +141,11 @@ namespace ScmBackup.Scm
         public abstract bool RepositoryContainsCommit(string directory, string commitid);
 
         /// <summary>
+        /// Checks whether the backup repo in this directory contains this LFS file
+        /// </summary>
+        public abstract bool BackupContainsLFSFile(string directory, string path);
+
+        /// <summary>
         /// Gets the file to execute
         /// (either a complete path from the config, or this.CommandName)
         /// </summary>

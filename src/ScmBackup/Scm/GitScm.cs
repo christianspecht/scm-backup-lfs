@@ -212,5 +212,34 @@ namespace ScmBackup.Scm
             uri.Password = credentials.Password;
             return uri.ToString();
         }
+
+        public override bool BackupContainsLFSFile(string directory, string path)
+        {
+            string subDir = "_scm-backup-gitscm";
+
+            // Source: https://github.com/christianspecht/scm-backup/pull/62#issuecomment-834752336 (bottom)
+
+            // 1. create another bare repo locally
+            string tmpRepo = this.FileSystemHelper.CreateTempDirectory(subDir, "tmprepo");
+            this.CreateRepository(tmpRepo);
+
+            // 2. push from the original backup to this
+            string cmd = string.Format("-C \"{0}\" push --mirror \"{1}\"", directory, tmpRepo);
+            var result = this.ExecuteCommand(cmd);
+
+            // 3. push LFS files
+            cmd = string.Format("-C \"{0}\" lfs push --all \"file:///{1}\"", directory, tmpRepo);
+            result = this.ExecuteCommand(cmd);
+
+            // 4. clone again, the local clone contains all LFS files
+            string finalRepo = this.FileSystemHelper.CreateTempDirectory(subDir, "finalrepo");
+            cmd = string.Format("clone \"{0}\" \"{1}\"", tmpRepo, finalRepo);
+
+            // note: at the moment, it fails here --> output result?
+            result = this.ExecuteCommand(cmd);
+
+            string filename = Path.Combine(finalRepo, path);
+            return File.Exists(filename);
+        }
     }
 }

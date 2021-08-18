@@ -130,5 +130,10 @@ namespace ScmBackup.Tests.Integration.Scm
         {
             throw new NotImplementedException();
         }
+
+        public override bool BackupContainsLFSFile(string directory, string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

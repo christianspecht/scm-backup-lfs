@@ -77,5 +77,9 @@ namespace ScmBackup.Scm
         /// </summary>
         bool RepositoryContainsCommit(string directory, string commitid);
 
+        /// <summary>
+        /// Checks whether the backup repo in this directory contains this LFS file
+        /// </summary>
+        bool BackupContainsLFSFile(string directory, string path);
     }
 }

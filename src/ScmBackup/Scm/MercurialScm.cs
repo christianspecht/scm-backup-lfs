@@ -180,5 +180,9 @@ namespace ScmBackup.Scm
             return string.Format(" --config auth.x.prefix={0} --config auth.x.username={1} --config auth.x.password={2}", baseurl, credentials.User, credentials.Password);
         }
 
+        public override bool BackupContainsLFSFile(string directory, string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

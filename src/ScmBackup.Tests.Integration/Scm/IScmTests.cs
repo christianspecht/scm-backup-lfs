@@ -179,20 +179,18 @@ namespace ScmBackup.Tests.Integration.Scm
         }
 
         [SkippableFact]
-        public void PullFromRemote_Lfs_CreatesNewRepo()
+        public void PullFromRemote_Lfs_ContainsLargeFile()
         {
             Skip.If(this.SkipLfsTests());
+
+            Assert.True(sut.LFSIsOnThisComputer());
 
             string dir = DirectoryHelper.CreateTempDirectory(DirSuffix("pull-lfs-new"));
             sut.PullFromRemote(this.LfsRepoUrl, dir);
 
             Assert.True(sut.DirectoryIsRepository(dir));
             Assert.True(sut.RepositoryContainsCommit(dir, this.LfsRepoExistingCommitId));
-
-            // TODO
-            // string filename = Path.Combine(dir, this.LfsRepoFileName);
-            // Assert.True(File.Exists(filename));
-
+            Assert.True(sut.BackupContainsLFSFile(dir, this.LfsRepoFileName));
         }
 
         [Fact]
